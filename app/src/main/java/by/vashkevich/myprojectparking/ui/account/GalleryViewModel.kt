@@ -1,4 +1,4 @@
-package by.vashkevich.myprojectparking.ui.gallery
+package by.vashkevich.myprojectparking.ui.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package by.vashkevich.myprojectparking.ui.slideshow
+package by.vashkevich.myprojectparking.ui.creditCard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import by.vashkevich.myprojectparking.R
 
-class SlideshowFragment : Fragment() {
+class CreditCardFragment : Fragment() {
 
     private lateinit var slideshowViewModel: SlideshowViewModel
 
@@ -19,13 +19,6 @@ class SlideshowFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-                ViewModelProvider(this).get(SlideshowViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        return inflater.inflate(R.layout.fragment_credit_card, container, false)
     }
 }

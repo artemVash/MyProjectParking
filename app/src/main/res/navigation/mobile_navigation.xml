@@ -3,23 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_map">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="by.vashkevich.myprojectparking.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_map"
+        android:name="by.vashkevich.myprojectparking.ui.map.MapFragment"
+        android:label="@string/menu_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/showBottomSheetFragment2"
+            app:destination="@id/bottomSheetFragment2" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="by.vashkevich.myprojectparking.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_account"
+        android:name="by.vashkevich.myprojectparking.ui.account.AccountFragment"
+        android:label="@string/menu_account"
+        tools:layout="@layout/fragment_account" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="by.vashkevich.myprojectparking.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_credit_card"
+        android:name="by.vashkevich.myprojectparking.ui.creditCard.CreditCardFragment"
+        android:label="@string/menu_credit_card"
+        tools:layout="@layout/fragment_credit_card" />
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="by.vashkevich.myprojectparking.ui.help.HelpFragment"
+        android:label="@string/menu_help" />
+    <dialog
+        android:id="@+id/bottomSheetFragment2"
+        android:name="by.vashkevich.myprojectparking.BottomSheetFragment"
+        android:label="BottomSheetFragment"
+        tools:layout="@layout/fragment_bottom_sheet">
+        <action
+            android:id="@+id/showNav_map"
+            app:destination="@id/nav_map" />
+    </dialog>
 </navigation>
