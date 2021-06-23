@@ -1,6 +1,7 @@
 package by.vashkevich.myprojectparking
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Looper
@@ -20,9 +21,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import by.vashkevich.myprojectparking.singInRegistration.SingInAndRegisterActivity
+import by.vashkevich.myprojectparking.utilits.AUTH
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +36,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        init()
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
 
         permissionLocation()
+
 
     }
 
@@ -81,5 +89,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun init(){
+        AUTH = FirebaseAuth.getInstance()
+        if (AUTH.currentUser == null){
+            startActivity(Intent(this,SingInAndRegisterActivity::class.java))
+        }
     }
 }

@@ -13,4 +13,11 @@
     <string name="menu_help">Помощь</string>
     <string name="title_activity_maps">Map</string>
     <string name="parking">Parking</string>
+    <string name="title_number_register">Для регистрации аккаунта и
+                                           начала работы введите
+                                               номер телефона
+    </string>
+    <string name="proceed">Продолжить</string>
+    <string name="input_cod">Введите код  </string>
+    <string name="confirmation"> подтверждения </string>
 </resources>

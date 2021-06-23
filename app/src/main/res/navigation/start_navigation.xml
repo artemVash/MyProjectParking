@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_navigation"
+    app:startDestination="@id/introductoryFragment">
+
+    <fragment
+        android:id="@+id/introductoryFragment"
+        android:name="by.vashkevich.myprojectparking.singInRegistration.IntroductoryFragment"
+        android:label="IntroductoryFragment"
+        tools:layout="@layout/fargment_introductory">
+        <action
+            android:id="@+id/showNumberRegisterFragment"
+            app:destination="@id/numberRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/numberRegisterFragment"
+        android:name="by.vashkevich.myprojectparking.singInRegistration.NumberRegisterFragment"
+        android:label="NumberRegisterFragment"
+        tools:layout="@layout/fragment_number_register">
+        <action
+            android:id="@+id/showNumberConfirmationFragment"
+            app:destination="@id/numberConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/numberConfirmationFragment"
+        android:name="by.vashkevich.myprojectparking.singInRegistration.NumberConfirmationFragment"
+        android:label="NumberConfirmationFragment"
+        tools:layout="@layout/fragment_number_confirmation">
+        <action
+            android:id="@+id/showRegisterFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="by.vashkevich.myprojectparking.singInRegistration.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register"/>
+</navigation>
