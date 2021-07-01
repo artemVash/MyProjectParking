@@ -22,6 +22,8 @@ import androidx.navigation.fragment.findNavController
 import by.vashkevich.myprojectparking.MainActivity
 import by.vashkevich.myprojectparking.R
 import by.vashkevich.myprojectparking.R.id.showBottomSheetFragment2
+import by.vashkevich.myprojectparking.utilits.DEN
+import by.vashkevich.myprojectparking.utilits.ID_AND_ID_DEN
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -53,6 +55,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context)
+        permissionLocation()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -61,7 +64,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(
                 context as Activity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED) {
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -72,36 +76,26 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             return
         }
         mMap.isMyLocationEnabled = true
-        val locationCallback = object  : LocationCallback(){
+        val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locatinResult: LocationResult) {
                 locatinResult ?: return
-                for (location in locatinResult.locations){
+                for (location in locatinResult.locations) {
                     mMap.uiSettings.isZoomControlsEnabled = true
 
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(LatLng(location.latitude,location.longitude)))
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newLatLng(
+                            LatLng(
+                                location.latitude,
+                                location.longitude,
+                            )
+                        )
+                    )
                 }
             }
         }
         startLocationUpdates(locationCallback)
 
-        val minsk = LatLng(53.864395, 27.448683)
-        mMap.addMarker(MarkerOptions()
-            .position(minsk)
-            .title("Marker in Minsk")
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)))
-
-        val minsk2 = LatLng(53.864648, 27.451846)
-        mMap.addMarker(MarkerOptions()
-            .position(minsk2)
-            .title("Marker in Minsk")
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)))
-
-        val minsk3 = LatLng(53.862674, 27.446701)
-        mMap.addMarker(MarkerOptions()
-            .position(minsk3)
-            .title("Marker in Minsk")
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)))
-
+        getLocationDenAndWriteToMarker()
 
         mMap.setOnMarkerClickListener {
             findNavController().navigate(showBottomSheetFragment2)
@@ -117,7 +111,55 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun startLocationUpdates(locationCallback:LocationCallback){
-        fusedLocationProvider.requestLocationUpdates(getRequest(),locationCallback, Looper.getMainLooper())
+    private fun startLocationUpdates(locationCallback: LocationCallback) {
+        fusedLocationProvider.requestLocationUpdates(
+            getRequest(),
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+
+    private fun permissionLocation() {
+
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+                if (it) {
+                    Toast.makeText(context, "да", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(context,MainActivity::class.java))
+                } else {
+                    Toast.makeText(context, "нет", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        when {
+            context?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+
+                )
+            } == PackageManager.PERMISSION_GRANTED -> {
+                Toast.makeText(context, "разрешение уже есть", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+
+    }
+
+    private fun getLocationDenAndWriteToMarker(){
+        for (x in DEN){
+            val location = x.longitude?.let { x.latitude?.let { it1 -> LatLng(it1, it) } }
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(location)
+                    .title(x.market)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+            )
+            x.id?.let { ID_AND_ID_DEN.put(marker.id, it) }
+        }
     }
 }

@@ -21,7 +21,11 @@
         tools:layout="@layout/fragment_number_register">
         <action
             android:id="@+id/showNumberConfirmationFragment"
-            app:destination="@id/numberConfirmationFragment" />
+            app:destination="@id/numberConfirmationFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/numberConfirmationFragment"
@@ -30,7 +34,11 @@
         tools:layout="@layout/fragment_number_confirmation">
         <action
             android:id="@+id/showRegisterFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

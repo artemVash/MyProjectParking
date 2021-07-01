@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/jura_medium"
         android:layout_marginTop="16dp"
         android:text="@string/input_cod"
         android:textColor="@color/white"
@@ -25,6 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/jura_medium"
         android:text="@string/confirmation"
         android:textColor="@color/white"
         android:textSize="28sp"
@@ -37,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/jura_medium"
         android:text="Отправили SMS с кодом"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -61,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:hint="* * * * * *"
+        android:hint="_ _ _ _ _ _"
         android:textSize="50sp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -71,10 +74,13 @@
         app:layout_constraintTop_toBottomOf="@+id/number_user_text_in_fragment_confirmation" />
 
     <Button
+        style="@style/Button."
         android:id="@+id/button_verification_sms_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:text="@string/proceed"
+        android:textColor="@color/color_text_btn"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

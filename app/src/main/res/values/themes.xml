@@ -22,4 +22,21 @@
     <style name="Theme.MyProjectParking.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyProjectParking.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+    <declare-styleable name="MaskedEditText">
+        <attr name="mask" format="string" />
+        <attr name="placeholder" format="string" />
+    </declare-styleable>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/teal_200</item>
+        <item name="colorAccent">@color/teal_200</item>
+        <item name="hintTextColor">@color/teal_200</item>
+    </style>
+
+    <style name="Button." parent="Widget.MaterialComponents.Button">
+        <item name="strokeColor">@color/teal_200</item>
+        <item name="backgroundTint">@color/teal_200</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import by.vashkevich.myprojectparking.R
+import by.vashkevich.myprojectparking.utilits.initFirebase
 import com.google.android.material.tabs.TabLayoutMediator
 
 class SingInAndRegisterActivity : AppCompatActivity() {
@@ -19,6 +20,5 @@ class SingInAndRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sing_in_and_register)
-
     }
 }
