@@ -21,23 +21,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import by.vashkevich.myprojectparking.model.Den
+import by.vashkevich.myprojectparking.model.User
 import by.vashkevich.myprojectparking.singInRegistration.SingInAndRegisterActivity
-import by.vashkevich.myprojectparking.utilits.AUTH
+import by.vashkevich.myprojectparking.ui.map.MapFragment
+import by.vashkevich.myprojectparking.utilits.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         init()
+        initFirebase()
+        getAllDen()
+        getDataUser()
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -54,9 +65,6 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
 
-        permissionLocation()
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -64,37 +72,46 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun permissionLocation(){
-
-        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
-
-            if(it){
-                Toast.makeText(this,"да",Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"нет",Toast.LENGTH_SHORT).show()
-            }
-
-        }
-
-        when{
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-
-            ) == PackageManager.PERMISSION_GRANTED ->{
-                Toast.makeText(this,"разрешение уже есть",Toast.LENGTH_SHORT).show()
-            }
-            else ->{
-                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }
-
-    }
-
-    private fun init(){
+    private fun init() : Boolean{
         AUTH = FirebaseAuth.getInstance()
         if (AUTH.currentUser == null){
             startActivity(Intent(this,SingInAndRegisterActivity::class.java))
+            return false
+        }else{
+            return true
         }
+    }
+
+    private fun getDataUser(){
+        DATABASE_REF.child(NODE_USERS).child(UID)
+            .addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    USER = snapshot.getValue(User::class.java) ?:User()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+    }
+
+    private fun getAllDen(){
+        DATABASE_REF.child(NODE_DEN)
+            .addValueEventListener(object  : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (DEN.size > 0) DEN.clear()
+
+                for (ds in snapshot.children){
+                    val den = ds.getValue(Den::class.java) ?: Den()
+                    DEN.add(den)
+                }
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

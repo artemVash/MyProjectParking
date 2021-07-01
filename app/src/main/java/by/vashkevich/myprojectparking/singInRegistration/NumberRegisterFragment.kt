@@ -20,11 +20,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.vicmikhailau.maskededittext.MaskedEditText
 import java.util.concurrent.TimeUnit
 
 class NumberRegisterFragment : Fragment() {
 
-    lateinit var registerNumberUser : EditText
+    lateinit var registerNumberUser : MaskedEditText
     lateinit var buttonReceiveSms : Button
     lateinit var mCallback : PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
@@ -66,7 +67,7 @@ class NumberRegisterFragment : Fragment() {
             override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
 
                 viewModel.setId(id)
-
+                Toast.makeText(context,"Успешно",Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.showNumberConfirmationFragment)
             }
         }
