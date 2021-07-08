@@ -14,6 +14,14 @@ class MainViewModel : ViewModel() {
         _numberUser.value = number
     }
 
+    //Den id
+    private val _idDen = MutableLiveData<String>()
+    var idDen : LiveData<String> = _idDen
+
+    fun setIdDen(id : String){
+        _idDen.value = id
+    }
+
     //User id
     private val _idUser = MutableLiveData<String>()
     var idUser : LiveData<String> = _idUser
