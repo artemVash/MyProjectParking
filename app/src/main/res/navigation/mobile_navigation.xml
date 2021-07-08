@@ -11,8 +11,8 @@
         android:label="@string/menu_map"
         tools:layout="@layout/fragment_map" >
         <action
-            android:id="@+id/showBottomSheetFragment2"
-            app:destination="@id/bottomSheetFragment2" />
+            android:id="@+id/showBluetoothConnectFragment"
+            app:destination="@id/bluetoothConnectFragment" />
     </fragment>
 
     <fragment
@@ -30,13 +30,12 @@
         android:id="@+id/nav_help"
         android:name="by.vashkevich.myprojectparking.ui.help.HelpFragment"
         android:label="@string/menu_help" />
-    <dialog
-        android:id="@+id/bottomSheetFragment2"
-        android:name="by.vashkevich.myprojectparking.BottomSheetFragment"
-        android:label="BottomSheetFragment"
-        tools:layout="@layout/fragment_bottom_sheet">
+    <fragment
+        android:id="@+id/bluetoothConnectFragment"
+        android:name="by.vashkevich.myprojectparking.BluetoothConnectFragment"
+        android:label="BluetoothConnectFragment" >
         <action
-            android:id="@+id/showNav_map"
+            android:id="@+id/action_bluetoothConnectFragment_to_nav_map"
             app:destination="@id/nav_map" />
-    </dialog>
+    </fragment>
 </navigation>

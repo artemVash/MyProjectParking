@@ -3,7 +3,6 @@ package by.vashkevich.myprojectparking.ui.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -16,14 +15,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import by.vashkevich.myprojectparking.MainActivity
+import by.vashkevich.myprojectparking.MainViewModel
 import by.vashkevich.myprojectparking.R
-import by.vashkevich.myprojectparking.R.id.showBottomSheetFragment2
-import by.vashkevich.myprojectparking.utilits.DEN
-import by.vashkevich.myprojectparking.utilits.ID_AND_ID_DEN
+import by.vashkevich.myprojectparking.utilits.*
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -38,6 +34,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
+
+    private val viewModel by lazy {
+        ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,7 +98,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         getLocationDenAndWriteToMarker()
 
         mMap.setOnMarkerClickListener {
-            findNavController().navigate(showBottomSheetFragment2)
+            viewModel.setIdDen(it.id)
+            BOTTOM_SHEET.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             false
         }
 
