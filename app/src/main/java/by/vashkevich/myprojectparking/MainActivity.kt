@@ -30,12 +30,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     private val viewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
@@ -58,8 +62,12 @@ class MainActivity : AppCompatActivity() {
 
             if (result.resultCode == Activity.RESULT_OK) {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.showBluetoothConnectFragment)
-            }else{
-                Toast.makeText(this,"Необходимо включить Bluetooth то бы продолжить",Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Необходимо включить Bluetooth что бы продолжить",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
         }
@@ -90,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun init(){
+    private fun init() {
         AUTH = FirebaseAuth.getInstance()
         if (AUTH.currentUser == null) {
             startActivity(Intent(this, SingInAndRegisterActivity::class.java))
@@ -98,34 +106,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDataUser() {
-        DATABASE_REF.child(NODE_USERS).child(UID)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    USER = snapshot.getValue(User::class.java) ?: User()
-                }
+        ioScope.launch {
+            DATABASE_REF.child(NODE_USERS).child(UID)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        USER = snapshot.getValue(User::class.java) ?: User()
+                    }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
 
-            })
+                })
+        }
+
     }
 
     private fun getAllDen() {
-        DATABASE_REF.child(NODE_DEN)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
+        ioScope.launch {
+            DATABASE_REF.child(NODE_DEN)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                    if (DEN.size > 0) DEN.clear()
+                        if (DEN.size > 0) DEN.clear()
 
-                    for (ds in snapshot.children) {
-                        val den = ds.getValue(Den::class.java) ?: Den()
-                        DEN.add(den)
+                        for (ds in snapshot.children) {
+                            val den = ds.getValue(Den::class.java) ?: Den()
+                            DEN.add(den)
+                        }
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+        }
+
     }
 
     private fun initBottomSheet() {
@@ -141,16 +155,21 @@ class MainActivity : AppCompatActivity() {
         BOTTOM_SHEET.halfExpandedRatio = 0.6f
         BOTTOM_SHEET.state = BottomSheetBehavior.STATE_HIDDEN
 
-        viewModel.idDen.observe(this){
+        viewModel.idDen.observe(this) {
             val id = ID_AND_ID_DEN[it]
-            for (den in DEN){
-                if (den.id == id){
+            for (den in DEN) {
+                if (den.id == id) {
 
                     textMarker.text = den.market
                     textStreet.text = den.street
 
-                    if(den.state == true) textCloseOpen.text = "Открыто"
-                    else textCloseOpen.text = "Закрыто"
+                    if (den.state == true) {
+                        textCloseOpen.text = "Открыто"
+                    }else{
+                        textCloseOpen.text = "Закрыто"
+                    }
+
+
 
                     btlLocation.setOnClickListener {
                         BOTTOM_SHEET.state = BottomSheetBehavior.STATE_HIDDEN
@@ -160,6 +179,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun enableBt() {
         val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
         resultLauncher.launch(intent)

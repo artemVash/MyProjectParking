@@ -15,6 +15,8 @@ import by.vashkevich.myprojectparking.R
 import by.vashkevich.myprojectparking.model.User
 import by.vashkevich.myprojectparking.utilits.*
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class RegisterFragment : Fragment() {
 

@@ -19,6 +19,7 @@ const val CHILD_ID = "id"
 const val CHILD_NAME = "name"
 const val CHILD_EMAIL = "email"
 const val CHILD_NUMBER = "number"
+const val CHTG = "chtg"
 
 
 fun initFirebase(){

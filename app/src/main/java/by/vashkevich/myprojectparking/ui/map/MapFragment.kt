@@ -29,11 +29,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     private val viewModel by lazy {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -127,7 +132,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 if (it) {
                     Toast.makeText(context, "да", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(context,MainActivity::class.java))
+                    startActivity(Intent(context, MainActivity::class.java))
                 } else {
                     Toast.makeText(context, "нет", Toast.LENGTH_SHORT).show()
                 }
@@ -151,16 +156,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun getLocationDenAndWriteToMarker(){
-        for (x in DEN){
-            val location = x.longitude?.let { x.latitude?.let { it1 -> LatLng(it1, it) } }
-            val marker = mMap.addMarker(
-                MarkerOptions()
-                    .position(location)
-                    .title(x.market)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
-            )
-            x.id?.let { ID_AND_ID_DEN.put(marker.id, it) }
+    private fun getLocationDenAndWriteToMarker() {
+        ioScope.launch {
+            for (x in DEN) {
+                val location = x.longitude?.let { x.latitude?.let { it1 -> LatLng(it1, it) } }
+                withContext(Dispatchers.Main) {
+                    val marker = mMap.addMarker(
+                        MarkerOptions()
+                            .position(location)
+                            .title(x.market)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+                    )
+                    x.id?.let { ID_AND_ID_DEN.put(marker.id, it) }
+                }
+            }
         }
+
     }
 }
