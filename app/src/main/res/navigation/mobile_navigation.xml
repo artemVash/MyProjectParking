@@ -19,7 +19,11 @@
         android:id="@+id/nav_account"
         android:name="by.vashkevich.myprojectparking.ui.account.AccountFragment"
         android:label="@string/menu_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/showChangeNameFragment"
+            app:destination="@id/changeNameFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_credit_card"
@@ -32,10 +36,18 @@
         android:label="@string/menu_help" />
     <fragment
         android:id="@+id/bluetoothConnectFragment"
-        android:name="by.vashkevich.myprojectparking.BluetoothConnectFragment"
+        android:name="by.vashkevich.myprojectparking.bluetooth.BluetoothConnectFragment"
         android:label="BluetoothConnectFragment" >
         <action
             android:id="@+id/action_bluetoothConnectFragment_to_nav_map"
             app:destination="@id/nav_map" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeNameFragment"
+        android:name="by.vashkevich.myprojectparking.ui.account.ChangeNameFragment"
+        android:label="ChangeNameFragment" >
+        <action
+            android:id="@+id/action_changeNameFragment_to_nav_account"
+            app:destination="@id/nav_account" />
     </fragment>
 </navigation>

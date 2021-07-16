@@ -63,4 +63,7 @@ dependencies {
 
     //masked
     implementation 'io.github.vicmikhailau:MaskedEditText:4.0.5'
+
+    //coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0-RC'
 }

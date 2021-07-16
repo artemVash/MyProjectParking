@@ -27,4 +27,29 @@
         app:layout_constraintTop_toBottomOf="@+id/textDeviceSave"
         tools:layout_editor_absoluteX="61dp" />
 
+    <TextView
+        android:id="@+id/connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/textDeviceSearch" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_test"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_ble_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="connect bte"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.vashkevich.myprojectparking.R
 import by.vashkevich.myprojectparking.utilits.DEN
 import by.vashkevich.myprojectparking.utilits.ID_AND_ID_DEN
@@ -27,9 +28,17 @@ class AccountFragment : Fragment() {
         val testName = view.findViewById<TextView>(R.id.test_name_user)
         val testDen = view.findViewById<TextView>(R.id.test_den)
 
+        val btnСhangeName = view.findViewById<TextView>(R.id.change_name)
+
         testName.text = USER.name
 
         testDen.text = ID_AND_ID_DEN.size.toString()
+
+        btnСhangeName.setOnClickListener {
+
+            findNavController().navigate(R.id.showChangeNameFragment)
+
+        }
 
     }
 }

@@ -3,6 +3,7 @@ package by.vashkevich.myprojectparking
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import by.vashkevich.myprojectparking.model.BluetoothDevices
 
 class MainViewModel : ViewModel() {
 
@@ -29,6 +30,15 @@ class MainViewModel : ViewModel() {
     fun setId(id : String){
         _idUser.value = id
     }
+
+    private val _list = MutableLiveData<ArrayList<BluetoothDevices>>()
+    var list : LiveData<ArrayList<BluetoothDevices>> = _list
+
+    fun setList(list : ArrayList<BluetoothDevices>){
+        _list.value = list
+    }
+
+
 
 
 }
